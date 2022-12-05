@@ -13,8 +13,10 @@ class Books(models.Model):
         """
         fields = Books._meta.get_fields()
         field_info_list = []
+        ignore_fields = ['id', 'locale']
         for i in fields:
-            field_info_list.append((i.name, i.get_internal_type()))
+            if i.name not in ignore_fields:
+                field_info_list.append((i.name, i.get_internal_type()))
         return field_info_list
 
     
