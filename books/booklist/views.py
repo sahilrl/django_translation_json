@@ -1,9 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.utils.translation import get_language
+from booklist.forms import BooksForm
+import json
 
 
-def home(request):
-    if request.LANGUAGE_CODE == 'en':
-        print('reading it in english')
-    return HttpResponse(request.LANGUAGE_CODE)
+def bookform(request):
+    if request.method == 'POST':
+        form = BooksForm(request.POST)
+        if form.is_valid():
+            store_cleaned_data = {}
+            for i in form.fields:
+                store_cleaned_data[i] = form.cleaned_data[i]
+            print(store_cleaned_data)
+            store_cleaned_data = json.dumps(store_cleaned_data)
+            print(store_cleaned_data)
+        return HttpResponse('successs')
+    form = BooksForm()
+    return render(request, "books.html", {'form': form})

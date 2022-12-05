@@ -1,16 +1,5 @@
 from django.contrib import admin
-from booklist.forms import BooksForm
+from booklist.models import Books
 
 
-class BooksAdmin(admin.ModelAdmin):
-    form = BooksForm
-    add_fieldsets = (
-        (None, {
-            'fields': ('*'),
-        }),
-    )
-
-
-
-
-
+admin.site.register(Books)

@@ -1,7 +1,9 @@
 from django.db import models
 
 class Books(models.Model):
-    title = models.CharField(max_length=500)
+    title = models.CharField(max_length=500, blank=False, null=False)
+    author = models.CharField(max_length=500, null=True, blank=True)
+    genre = models.CharField(max_length=500, null=True, blank=True)
     locale = models.JSONField()
 
     def __str__(self):
