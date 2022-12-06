@@ -4,7 +4,10 @@ from .models import Books
 from booklist.utils import build_localized_fieldname
 
 
-class BooksForm(forms.Form):
+class BooksForm(forms.ModelForm):
+    class Meta:
+        model = Books
+        fields = '__all__'
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         b = Books
@@ -14,10 +17,13 @@ class BooksForm(forms.Form):
                 # TODO: set form field type acc. to original field in models?
                 if lang[0] in settings.LANGUAGE_CODE:
                     print(lang[0], settings.LANGUAGE_CODE)
-                    self.fields[field_name] = forms.CharField(required=True)
+                    self.fields[field_name] = forms.CharField()
                 else:
-                    self.fields[field_name] = forms.CharField(required=False)
+                    self.fields[field_name] = forms.CharField()
     
+    def save(self):
+        author_ru = self.cleaned_data.get('author_ru', None)
+        return super().save(commit="commit")
 
                 
             
