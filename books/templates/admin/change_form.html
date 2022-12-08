@@ -46,12 +46,10 @@
 {% endif %}
 
 {% block field_sets %}
-{% for fieldset in adminform %}
-  {% include "admin/includes/fieldset.html" %}
-  {% for thefield in form %}
+
+{% for thefield in form %}
   {{thefield.label}}: {{thefield}}
  {% endfor %}
-{% endfor %}
 {% endblock %}
 
 {% block after_field_sets %}{% endblock %}

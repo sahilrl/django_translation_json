@@ -8,7 +8,7 @@ def build_localized_fieldname(field_name, lang):
     return str('%s_%s' % (field_name, lang.replace('-', '_')))
 
 
-def _build_localized_verbose_name(verbose_name, lang):
+def build_localized_verbose_name(verbose_name, lang):
     if lang == 'id':
         lang = 'ind'
     return force_str('%s [%s]') % (force_str(verbose_name), lang)

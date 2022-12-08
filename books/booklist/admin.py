@@ -13,13 +13,11 @@ csrf_protect_m = method_decorator(csrf_protect)
 class BooksAdminSite(admin.ModelAdmin):
     index_template = 'admin/admin.html'
     app_index_template = 'admin/admin_app.html'
-    fields = ('title',)
+    form = BooksForm
 
     def change_view(self, request, object_id, form_url="", extra_context=None):
         if request.method == 'POST':
             form = BooksForm(request.POST)
-            print(form)
-            return HttpResponse('ok')
         context = {}
         form = BooksForm()
         context['form'] = form
