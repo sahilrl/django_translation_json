@@ -31,9 +31,9 @@ def get_field_info(model_name):
                 for lang in settings.LANGUAGES:
                     # do not create field for language in LANGUAGE_CODE
                     if lang[0] not in settings.LANGUAGE_CODE:
-                        field_name = build_localized_fieldname(field_name, lang[0])
+                        field = build_localized_fieldname(field_name, lang[0])
                         # TODO: set form field type acc. to original field in models? using field_type
-                        self.fields[field_name] = forms.CharField(required=False)
+                        self.fields[field] = forms.CharField(required=False)
 
 
         class Meta:
