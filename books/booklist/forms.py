@@ -69,7 +69,7 @@ def get_field_info(model_name):
                             # After spillting for example, "title_ru", 
                             # the lang_code[0] index gives us field name like "title"
                             # example ->{'ru': [{'title': 'value'}, {'author': 'value'}], 'es': [{'title': 'value'}]}
-                        stored_fields[lang_code[-1]] += [{lang_code[0]: self.cleaned_data[field]}]
+                        stored_fields[lang_code[1]] += [{lang_code[0]: self.cleaned_data[field]}]
             self.instance.locale = json.dumps(stored_fields)
             return super().save(commit=False)
               
