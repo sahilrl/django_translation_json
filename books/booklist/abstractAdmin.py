@@ -7,11 +7,11 @@ csrf_protect_m = method_decorator(csrf_protect)
 
 class LocaleAdminSite(admin.ModelAdmin):
     """ 
-        This is the baseclass that you can sub-class in the admin.py,
-        and in the subclass set the value for form like
-        form = get_field_info(model_name). you can import get_field_info from forms.py
-        after that you need to register your subclass like
-        admin.site.register(model_name, SubclassAdminSite)
+    This is the baseclass that you can sub-class in the admin.py,
+    and in the subclass set the value for form like
+    form = get_field_info(model_name). you can import get_field_info from forms.py
+    after that you need to register your subclass like
+    admin.site.register(model_name, SubclassAdminSite)
     """
     index_template = 'admin/admin.html'
     app_index_template = 'admin/admin_app.html'
@@ -30,7 +30,6 @@ class LocaleAdminSite(admin.ModelAdmin):
     def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
         if request.method == 'POST':
             form = self.form(request.POST)
-            print(form)
         form = self.form()
         context = {}
         context['form'] = form
