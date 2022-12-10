@@ -54,18 +54,25 @@ def get_field_info(model_name):
             stored_fields = {}
             for field in self.cleaned_data:
                 # lang_code is spliting out the language code from the field name. 
-                # example: title_ru -> [title, ru] or [title, us, en]
+                # example: title_ru -> [title, ru] or titile_en_us ->[title, us, en] or just [title]
                 lang_code = field.split("_")
-                # accessing the language code as last index after spilting
-                if lang_code[-1] in [lang[0] for lang in settings.LANGUAGES]:
-                    if lang_code[-1] not in stored_fields:
-                        stored_fields[lang_code[-1]] = []
-                        # lang_code[0] gives field name as "title" rather than "title_ru"
-                        # example ->{'ru': [{'title': 'value'}, {'author': 'value'}], 'es': [{'title': 'value'}]}
-                    stored_fields[lang_code[-1]] += [{lang_code[0]: self.cleaned_data[field]}]
+                # if we have only one field like ["title"] with length 1 then we just ignore it, 
+                # if we have array with length more than 1 like the example below
+                # -> ["title", "en"] or ["title", "en", "us"], we take the index [1]
+                # and append this as key in the stored_fields dictionary.
+                if len(lang_code) > 1:
+                    # before appending the key we also first check if the key 
+                    # exists in the LANGUAGES array defined in the settings file.
+                    if lang_code[1] in [lang[0] for lang in settings.LANGUAGES]:
+                        if lang_code[1] not in stored_fields:
+                            stored_fields[lang_code[1]] = []
+                            # After spillting for example, "title_ru", 
+                            # the lang_code[0] index gives us field name like "title"
+                            # example ->{'ru': [{'title': 'value'}, {'author': 'value'}], 'es': [{'title': 'value'}]}
+                        stored_fields[lang_code[-1]] += [{lang_code[0]: self.cleaned_data[field]}]
             self.instance.locale = json.dumps(stored_fields)
             return super().save(commit=False)
-            
+              
     return LocaleForm
 
 

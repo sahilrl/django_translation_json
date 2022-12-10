@@ -1,5 +1,14 @@
 from django.db import models
 
+# Thoughts on this?
+#
+# class AbstractClass(models.Model):
+#    locale = models.JSONField()
+#  
+#   then
+#
+# class Books(AbstractClass):
+#   define your field here         
 
 class Books(models.Model):
     title = models.CharField(max_length=500, blank=False, null=False)
