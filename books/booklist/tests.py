@@ -1,11 +1,11 @@
 from django.test import TestCase
-from booklist.forms import get_field_info
 
 
 class BookTest(TestCase):
     @classmethod 
     def setUpTestData(self):
         from booklist.models import AbstractModel
+        from booklist.forms import get_field_info
         from django.db import models
 
         class TestModel(AbstractModel):
@@ -15,12 +15,12 @@ class BookTest(TestCase):
             def __str__(self):
                 return self.field1
         self.model = TestModel
+        self.form = get_field_info(self.model)
 
     def test_form_fields(self):
         fields = ['field1', 'field2', 'field1_ru', 'field1_es', 'field2_ru', 'field2_es']
-        self.form = get_field_info(self.model)
-        form_obj = self.form()
-        self.assertTrue(set(list(form_obj.fields.keys())).issubset(fields))
+        form = self.form()
+        self.assertTrue(set(list(form.fields.keys())).issubset(fields))
         
 
     def test_admin_registration(self):
@@ -28,11 +28,15 @@ class BookTest(TestCase):
         from django.contrib import admin
         
         class TestAdminSite(LocaleAdminSite):
-            form = get_field_info(self.model)
+            form = self.form()
         try:
             admin.site.register(self.model, TestAdminSite)
         except Exception as ex:
             raise(ex)
+
+    def test_form_save(self):
+        pass
+
 
 
         

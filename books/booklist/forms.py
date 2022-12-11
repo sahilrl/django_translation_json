@@ -6,10 +6,9 @@ from collections import OrderedDict
 
 def get_field_info(model_name):
     """
-    This functions takes a model and populate the field_info_list with its fields.
-    The ignore_fields list ignores "id" and "locale" for which we do not
-    want to create localized fields. The function creates a Form with the localized fields
-    and it returns the LocalForm.
+    This functions takes a model and populate the field_info_list with its fields
+    and it returns the Form. The ignore_fields list ignores "id" and "locale" for which
+    we do not want to create localized fields. The LocalForm creates a Form with the localized fields.
     """
     fields = model_name._meta.get_fields()
     field_info_list = []
