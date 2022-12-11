@@ -2,6 +2,7 @@ from django.conf import settings
 from django import forms
 from booklist.utils import build_localized_fieldname, build_localized_verbose_name
 import json
+from collections import OrderedDict
 
 def get_field_info(model_name):
     """
@@ -27,9 +28,10 @@ def get_field_info(model_name):
                 for lang in settings.LANGUAGES:
                     if lang[0] not in settings.LANGUAGE_CODE:
                         field = build_localized_fieldname(field_name, lang[0])
+                        label = build_localized_verbose_name(field_name, lang[0])
                         # TODO: set form field type acc. to original field in models?
-                        self.fields[field] = forms.CharField(required=False)
-
+                        self.fields[field] = forms.CharField(required=False, label=label)
+            self.fields = OrderedDict(sorted(self.fields.items()))
 
         class Meta:
             model = model_name
